@@ -7,20 +7,17 @@
         @change="handleFileChange"
       />
       <el-button @click="handleUpload" :disabled="uploadDisabled"
-      >upload
-      </el-button
-      >
+        >upload
+      </el-button>
       <el-button @click="handleResume" v-if="status === Status.pause"
-      >resume
-      </el-button
-      >
+        >resume
+      </el-button>
       <el-button
         v-else
         :disabled="status !== Status.uploading || !container.hash"
         @click="handlePause"
-      >pause
-      </el-button
-      >
+        >pause
+      </el-button>
       <el-button @click="handleDelete">delete</el-button>
     </div>
     <div>
@@ -142,13 +139,13 @@ export default {
     },
     // xhr
     request({
-              url,
-              method = "post",
-              data,
-              headers = {},
-              onProgress = e => e,
-              requestList
-            }) {
+      url,
+      method = "post",
+      data,
+      headers = {},
+      onProgress = e => e,
+      requestList
+    }) {
       return new Promise(resolve => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = onProgress;
@@ -206,14 +203,13 @@ export default {
       Object.assign(this.$data, this.$options.data());
       this.container.file = file;
     },
-    
-    
+
     async handleUpload() {
       if (!this.container.file) return;
       this.status = Status.uploading;
       const fileChunkList = this.createFileChunk(this.container.file);
       this.container.hash = await this.calculateHash(fileChunkList);
-      
+
       //获取哪些已经上传 哪些还没上传
       const { shouldUpload, uploadedList } = await this.verifyUpload(
         //文件名
@@ -228,7 +224,7 @@ export default {
         this.status = Status.wait;
         return;
       }
-      
+
       this.data = fileChunkList.map(({ file }, index) => ({
         fileHash: this.container.hash,
         index,
@@ -237,7 +233,7 @@ export default {
         size: file.size,
         percentage: uploadedList.includes(index) ? 100 : 0
       }));
-      
+
       await this.uploadChunks(uploadedList);
     },
     // 上传切片，同时过滤已上传的切片
