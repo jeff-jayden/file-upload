@@ -118,6 +118,7 @@ export default {
         this.$message.success("delete success");
       }
     },
+    // 暂停上传 使用xhr的abort方法
     handlePause() {
       this.status = Status.pause;
       this.resetData();
@@ -129,6 +130,7 @@ export default {
         this.container.worker.onmessage = null;
       }
     },
+    // 重新上传 先获取已上传切片
     async handleResume() {
       this.status = Status.uploading;
       const { uploadedList } = await this.verifyUpload(
